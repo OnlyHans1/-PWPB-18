@@ -1,0 +1,117 @@
+    // $(document).ready(function () {
+    //     $(".btnDelete").on("click", function (e) {
+    //         e.preventDefault();
+
+    //         var nama = $(this).closest('tr').find('td:nth-child(3)').text();
+    //         var tr = $(this).closest('tr');
+
+    //         $("#confirmationModal").modal('show');
+    //         $(".modal-body").html('Anda yakin ingin menghapus data <b>' + nama + '</b> ?');
+
+    //         var href = $(this).attr('href');
+
+    //         $('#btnYa').off().on('click', function () {
+    //             $.ajax({
+    //                 'url': href,
+    //                 'type': 'POST',
+    //                 'success': function (result) {
+    //                     if (result == 1) {
+    //                         $("#confirmationModal").modal('hide');
+    //                         tr.fadeOut();
+
+    //                         toastr.success('Data berhasil dihapus', 'Informasi');
+    //                     }
+    //                 }
+    //             });
+    //         });
+    //     });
+    // });
+
+
+
+$(function() {
+    $(".btnDelete").on("click", function(e) {
+        e.preventDefault();
+
+        var nama = $(this).closest("tr").find("td:eq(2)").text(); // Mendapatkan nama dari kolom "Nama Lengkap"
+        var tr = $(this).closest("tr"); // Mengambil baris yang akan dihapus
+
+        $(".modal").modal('show');
+        $(".modal-title").html('Konfirmasi');
+        $(".modal-body").html('Anda yakin ingin menghapus data <b>' + nama + '</b> ?'); // Perbaikan tag pembuka dan penutup
+
+        var href = $(this).attr('href');
+
+        $('#btnYa').off().on('click', function() { // Memastikan event listener hanya dipasang sekali
+            $.ajax({
+                url: href,
+                type: 'POST',
+                success: function(result) {
+                    if (result == 1) {
+                        $(".modal").modal('hide');
+                        tr.fadeOut();
+
+                        toastr.success('Data berhasil dihapus', 'Informasi');
+                    }
+                }
+            });
+        });
+    });
+});
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" class="ml-auto"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btnYa">Ya</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Tidak</button>
+            </div>
+        </div>
+    </div>
+                </div>
+
+    <script type="text/javascript">
+            $(function() {
+            $(".btnDelete").on("click", function(e){
+            e.preventDefault();
+
+            var nama = $(this).closest('tr').find('td:eq(2)').html();
+
+            var tr = $(this).closest('tr');
+
+            $(".modal").modal('show');
+            $(".modal-title").html('Konfirmasi');
+            $(".modal-body").html('Anda ingin menghapus data <b>'+ nama + '</b>')
+
+            var href = $(this).attr('href');
+
+            $('.btnYa').off().on('click', function(){
+            $.ajax({
+            'url' : href,
+            'type' : 'POST',
+            'success' : function(result){
+                if(result == 1){
+                    $(".modal").modal('hide');
+                    tr.fadeOut();
+                    toastr.success('Data '+ nama + ' berhasil dihapus', 'Informasi');
+                }
+                else{
+                    $(".modal").modal('hide');
+                    toastr.error('Data tidak berhasil dihapus', 'Informasi');
+                }
+            }
+                    });
+                });
+            });
+        });
+            </script>
